@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -13,12 +13,14 @@ import { watchAuth } from './store/sagas';
 
 import createSagaMiddleware from 'redux-saga';
 
-
+const rootReducer = combineReducers({
+    auth: authReducer
+});
 
 const sagaMiddleware = createSagaMiddleware();
 
 // TODO moze byc zle
-const store = createStore({auth: authReducer}, applyMiddleware(sagaMiddleware));
+const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 
 sagaMiddleware.run(watchAuth);
 
