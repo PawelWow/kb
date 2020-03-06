@@ -12,6 +12,8 @@ const sideDrawer = (props) => {
         attachedClasses = [classes.SideDrawer, classes.Open];
     }
 
+    // TODO navigation items trzeba inaczej wyświetlic
+
     return (
         <Aux>
             <Backdrop show={props.open} clicked={props.closed} />
