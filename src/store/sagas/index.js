@@ -12,6 +12,10 @@ import {
     initCategoriesSaga    
 } from "./sideCategories";
 
+import {
+    addCategorySaga
+} from "./categoriesManager";
+
 export function* watchAuth() {
     yield all([
         takeEvery(actionTypes.AUTH_CHECK_TIMEOUT, checkAuthTimeoutSaga),
@@ -22,6 +26,10 @@ export function* watchAuth() {
 }
 
 export function* watchCategories() {
-    yield takeEvery(actionTypes.INIT_CATEGORIES, initCategoriesSaga);
+    yield takeEvery(actionTypes.CATEGORIES_INIT, initCategoriesSaga);
+}
+
+export function* watchCategoriesManager() {
+    yield takeEvery(actionTypes.CATEGORIES_ADD, addCategorySaga);
 }
 

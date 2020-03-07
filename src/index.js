@@ -10,7 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import authReducer from './store/reducers/auth';
 import sideCategoriesReducer from './store/reducers/sideCategories';
-import { watchAuth, watchCategories } from './store/sagas';
+import { watchAuth, watchCategories, watchCategoriesManager } from './store/sagas';
 
 import createSagaMiddleware from 'redux-saga';
 
@@ -26,6 +26,7 @@ const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 
 sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(watchCategories);
+sagaMiddleware.run(watchCategoriesManager)
 
 const app = (
     <Provider store={store}>

@@ -14,3 +14,7 @@
      initCategories,
      setCategories
  } from './sideCategories';
+
+ export {
+     addCategory
+ } from './categoriesManager';

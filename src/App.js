@@ -10,6 +10,10 @@ const Auth = React.lazy(() => {
   return import('./containers/Auth/Auth');
 });
 
+const CategoriesManager = React.lazy(() => {
+  return import('./containers/CategoriesManager/CategoriesManager');
+});
+
 function App(props) {
   
   const { onTryAutoSignup } = props;
@@ -26,14 +30,14 @@ function App(props) {
   );
 
   function getRoutes(props) {
-    if( props.isAuthenticated ) {     
-      
-      // Dodałem /auth i teraz działa - widocznie skaszaniło się, bo w kursie podział na ścieżki dla auth/unauth nastąpił, ale
+    if( props.isAuthenticated ) {
+            // Dodałem /auth i teraz działa - widocznie skaszaniło się, bo w kursie podział na ścieżki dla auth/unauth nastąpił, ale
       // w kursie jeszcze nie sprawdzono czy wszystko działa. Tak czy siak, cały dzień w pizdu
       return(
         <Switch>                       
           <Route path="/auth" render={(props) => <Auth {...props} />} /> 
-          <Route path="/logout" component={Logout} />          
+          <Route path="/logout" component={Logout} /> 
+          <Route path="/addCategory" render={(props) => <CategoriesManager {...props}  /> } />
           <Redirect to="/" />   
         </Switch>
       );

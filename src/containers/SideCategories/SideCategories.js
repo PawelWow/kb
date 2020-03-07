@@ -1,5 +1,6 @@
 import React, {useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { Route } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
 
 import SideDrawer from '../../components/Navigation/SideDrwer/SideDrawer';
 import NavigationItem from '../../components/Navigation/NavigationItems/NavigationItem/NavigationItem';
@@ -23,16 +24,18 @@ const SideCategories = (props) => {
 
     useEffect(() => {
         onInitCategories();
-        console.log(categories);
+        console.log("categories inits");
     }, [onInitCategories]);
 
-    return(
+    return(        
         <SideDrawer 
-            isAuth={props.isAuthenticated}
+            isAuth={props.isAuth}
             open={props.isVisible} 
             closed={props.closed}>
             <h1>Kategorie</h1>
             {getCategories()}
+            {props.isAuth && <p>Admin:<br /><NavigationItem link="/addCategory" isVertical>Dodaj</NavigationItem></p>}
+
         </SideDrawer>
     );
 
@@ -46,8 +49,7 @@ const SideCategories = (props) => {
        return (
             <nav>
                 {categories.map(cat => (
-                    
-                <NavigationItem key={cat.id} link={cat.link} isVertical>{cat.name}</NavigationItem> 
+                    <NavigationItem key={cat.id} link={cat.link} isVertical>{cat.name}</NavigationItem> 
                 ))}
             </nav>
        ); 

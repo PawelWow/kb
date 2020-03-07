@@ -13,7 +13,7 @@ const setCategories = (state, action ) => {
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        case actionTypes.SET_CATEGORIES: return setCategories(state, action);
+        case actionTypes.CATEGORIES_SET: return setCategories(state, action);
         default: return state;
     }
 };
