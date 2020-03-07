@@ -9,3 +9,8 @@
      authFail,
      checkAuthTimeout
  } from './auth';
+
+ export {
+     initCategories,
+     setCategories
+ } from './sideCategories';

@@ -8,6 +8,10 @@ import {
     authCheckStateSaga
 } from "./auth";
 
+import {
+    initCategoriesSaga    
+} from "./sideCategories";
+
 export function* watchAuth() {
     yield all([
         takeEvery(actionTypes.AUTH_CHECK_TIMEOUT, checkAuthTimeoutSaga),
@@ -15,5 +19,9 @@ export function* watchAuth() {
         takeEvery(actionTypes.AUTH_USER, authUserSaga),
         takeEvery(actionTypes.AUTH_CHECK_STATE, authCheckStateSaga)        
     ]);
+}
+
+export function* watchCategories() {
+    yield takeEvery(actionTypes.INIT_CATEGORIES, initCategoriesSaga);
 }
 

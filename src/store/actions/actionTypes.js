@@ -1,3 +1,6 @@
+export const INIT_CATEGORIES = 'INIT_CATEGORIES';
+export const SET_CATEGORIES = 'SET_CATEGORIES';
+
 export const AUTH_CHECK_STATE = 'AUTH_CHECK_STATE';
 export const AUTH_USER = 'AUTH_USER';
 export const AUTH_START = 'AUTH_START';
