@@ -1,0 +1,9 @@
+.SideCategories {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-flow: column;
+    align-items: left;
+    height: 100%;
+}

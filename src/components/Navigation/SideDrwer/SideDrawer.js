@@ -1,6 +1,5 @@
 import React from 'react';
 
-import NavigationItems from '../NavigationItems/NavigationItems';
 import Backdrop from '../../UI/Backdrop/Backgdrop';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 
@@ -11,19 +10,12 @@ const sideDrawer = (props) => {
     if(props.open) {
         attachedClasses = [classes.SideDrawer, classes.Open];
     }
-
-    // TODO navigation items trzeba inaczej wyświetlic
-
+    
     return (
         <Aux>
             <Backdrop show={props.open} clicked={props.closed} />
             <div className={attachedClasses.join(' ')} onClick={props.closed} >
-                <div className={classes.Logo}>
-                    logo
-                </div>
-                <nav>
-                    <NavigationItems isAuthenticated={props.isAuth} />
-                </nav>
+                {props.children}
             </div>
         </Aux>
     );
