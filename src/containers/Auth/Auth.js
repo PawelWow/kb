@@ -44,7 +44,6 @@ const Auth = props => {
         }               
     });
 
-    const [isSignup, setIsSignup] = useState(true);
     const { authRedirectPath, onSetAuthRedirectPath } = props;
 
     useEffect(() => {
@@ -67,11 +66,7 @@ const Auth = props => {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        props.onAuth(authForm.email.value, authForm.password.value, isSignup);
-    }
-
-    const onSwitchAuthMode = () => {
-        setIsSignup(!isSignup);
+        props.onAuth(authForm.email.value, authForm.password.value);
     }
 
     return (
@@ -79,9 +74,6 @@ const Auth = props => {
             { props.isAuthenticated && <Redirect to={props.authRedirectPath} /> }
             { props.error && <p>{props.error.message}</p> }
             { showLoginForm(props) }
-            <Button 
-                clicked={onSwitchAuthMode}
-                btnType="Danger">SWITCH TO {isSignup ? 'SIGNIN' : 'SIGNUP'}</Button>
         </div>
     );    
 
@@ -135,7 +127,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (email, password, isSignup) => dispatch(actions.auth(email, password, isSignup)),
+        onAuth: (email, password) => dispatch(actions.auth(email, password)),
         onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/'))
     };
 };
