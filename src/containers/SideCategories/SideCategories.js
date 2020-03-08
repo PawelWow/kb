@@ -14,18 +14,16 @@ const SideCategories = (props) => {
     const dispatch = useDispatch();
 
     const categories = useSelector(state => state.sideCategories.categories);
+    const changesCount = useSelector(state => state.sideCategories.changesCount);
 
     const onInitCategories = useCallback(() => dispatch(actions.initCategories()), [dispatch]);
 
+    // changes count przeładowuje kategorie 2 x. Można to przemyśleć w takim razie robiąc jakiś timer - inkrementujemy, a 
+    // timer wyzeruje (wtedy powtórzymy ładowanie tylko po jakimś czasie)
+    // albo za bardzo działam na bakendzie - może edyccja powinna być w 2 miejscach - tutaj i w bazie, a reload zrobimy tylko tutaj
     useEffect(() => {
         onInitCategories();
-        console.log("categories inits");
-    }, [onInitCategories]);
-
-    const onEditCategory = (event, categoryId) => {
-        console.log(props);
-        //props.history.replace('/categories/edit/'+ categoryId);
-    }
+    }, [onInitCategories, changesCount]);
 
     return(        
         <SideDrawer 

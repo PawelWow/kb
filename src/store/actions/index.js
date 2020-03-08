@@ -12,7 +12,8 @@
 
  export {
      initCategories,
-     setCategories
+     setCategories,
+     setChangesCount
  } from './sideCategories';
 
  export {

@@ -12,3 +12,9 @@ export const setCategories = (categories) => {
         categories: categories
     }
 }
+
+export const setChangesCount = () => {
+    return {
+        type: actionTypes.CATEGORIES_CHANGES_COUNT        
+    }
+}

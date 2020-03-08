@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect, useCallback  } from 'react';
 import { useDispatch, useSelector  } from 'react-redux';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
@@ -12,13 +12,17 @@ const CategoryManager = (props) => {
 
     const token = useSelector(state => state.auth.token);        
     const categories = useSelector(state => state.sideCategories.categories);
+    const changesCount = useSelector(state => state.sideCategories.changesCount);
     
     const [categoryLink, setCategoryLink] = useState('');
     const [isFormValid, setIsFormValid] = useState(false);
+    const [isDone, setIsDone] = useState(false);
 
     const onAddCategory = category => dispatch(actions.addCategory(category, token));
     const onEditCategory = (id, category) => dispatch(actions.editCategory(id, category, token));
-
+    const onInitCategories = useCallback(() => dispatch(actions.initCategories()), [dispatch]);
+    const onChange = () => dispatch(actions.setChangesCount());
+    
     const [categoryForm, setCategoryForm] = useState({
         name: {
             elementType: 'input',
@@ -55,7 +59,7 @@ const CategoryManager = (props) => {
         
         setInitialForm(result[0]);
 
-    }, [props.category, categories, props.match.params.id]);
+    }, [props.match.params.id]);
 
     const onInputChanged = (event, controlName) => {
         const updatedControls = updateObject(categoryForm, {            
@@ -85,29 +89,42 @@ const CategoryManager = (props) => {
         } else {
             onAddCategory(getCategoryData());       
         }
+
+        setIsDone(true);
+        onChange();
+        console.log("after submit changes count: " + changesCount);
+        
+        props.history.replace('/');
+        
     }
 
-
-    const formElementsArray = getCategoryormElements();
     return (
         <div className={classes.CategoriesManager}>
-            <form onSubmit={onSubmit}>
-                {formElementsArray.map( formElement => (                
-                    <Input
-                        key={formElement.id}
-                        elementType={formElement.config.elementType}
-                        elementConfig={formElement.config.elementConfig}
-                        value={formElement.config.value}
-                        invalid={!formElement.config.isValid}
-                        shouldValidate={formElement.config.validation}
-                        isTouched={formElement.config.isTouched}
-                        changed={( event ) => onInputChanged( event, formElement.id )}
-                        />))}
-                        <p >Link: {categoryLink}</p>
-                <Button btnType="Success" disabled={!isFormValid}>SUBMIT</Button>                
-            </form>            
+            {isDone ? <p>Done with {categoryForm["name"].value}</p> : showForm()}           
         </div>
     );
+
+    function showForm(){
+        const formElementsArray = getCategoryormElements();
+
+        return (
+            <form onSubmit={onSubmit}>
+                {formElementsArray.map( formElement => (                
+                <Input
+                    key={formElement.id}
+                    elementType={formElement.config.elementType}
+                    elementConfig={formElement.config.elementConfig}
+                    value={formElement.config.value}
+                    invalid={!formElement.config.isValid}
+                    shouldValidate={formElement.config.validation}
+                    isTouched={formElement.config.isTouched}
+                    changed={( event ) => onInputChanged( event, formElement.id )}
+            />))}
+            <p >Link: {categoryLink}</p>
+            <Button btnType="Success" disabled={!isFormValid}>SUBMIT</Button>                
+        </form>  
+        );
+    }
 
     function getCategoryData(){
         const categoryData = {};
@@ -157,6 +174,7 @@ const CategoryManager = (props) => {
 
         setCategoryForm(formData);
         setCategoryLink(category.link);
+        setIsDone(false);
     }
 }
 
