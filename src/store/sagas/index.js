@@ -13,8 +13,10 @@ import {
 } from "./sideCategories";
 
 import {
-    addCategorySaga
+    addCategorySaga,
+    editCategorySaga
 } from "./categoriesManager";
+import { editCategory } from "../actions";
 
 export function* watchAuth() {
     yield all([
@@ -30,6 +32,9 @@ export function* watchCategories() {
 }
 
 export function* watchCategoriesManager() {
-    yield takeEvery(actionTypes.CATEGORIES_ADD, addCategorySaga);
+    yield all ([
+        takeEvery(actionTypes.CATEGORIES_ADD, addCategorySaga),
+        takeEvery(actionTypes.CATEGORIES_EDIT, editCategorySaga)
+    ]);
 }
 

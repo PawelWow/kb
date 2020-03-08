@@ -1,6 +1,6 @@
 import React, {useEffect, useCallback } from 'react';
-import { Route } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux'
+import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import SideDrawer from '../../components/Navigation/SideDrwer/SideDrawer';
 import NavigationItem from '../../components/Navigation/NavigationItems/NavigationItem/NavigationItem';
@@ -8,14 +8,9 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 
 import * as actions from '../../store/actions/index';
 
+import classes from './SideCategories.css';
+
 const SideCategories = (props) => {
-
-    // const categories = [
-    //     { link: '/', name: 'Kategoria 1'},
-    //     { link: '/', name: 'Kategoria 2'},
-    //     { link: '/', name: 'Kategoria 3'}    
-    // ];
-
     const dispatch = useDispatch();
 
     const categories = useSelector(state => state.sideCategories.categories);
@@ -27,6 +22,11 @@ const SideCategories = (props) => {
         console.log("categories inits");
     }, [onInitCategories]);
 
+    const onEditCategory = (event, categoryId) => {
+        console.log(props);
+        //props.history.replace('/categories/edit/'+ categoryId);
+    }
+
     return(        
         <SideDrawer 
             isAuth={props.isAuth}
@@ -34,7 +34,7 @@ const SideCategories = (props) => {
             closed={props.closed}>
             <h1>Kategorie</h1>
             {getCategories()}
-            {props.isAuth && <p>Admin:<br /><NavigationItem link="/addCategory" isVertical>Dodaj</NavigationItem></p>}
+            {props.isAuth && <p>Admin:<br /><NavigationItem link="/categories/add" isVertical>Dodaj</NavigationItem></p>}
 
         </SideDrawer>
     );
@@ -49,10 +49,29 @@ const SideCategories = (props) => {
        return (
             <nav>
                 {categories.map(cat => (
-                    <NavigationItem key={cat.id} link={cat.link} isVertical>{cat.name}</NavigationItem> 
+                                       
+                    <NavigationItem key={cat.id} link={cat.link} extras={createExtras(cat)} isVertical>{cat.name}</NavigationItem>
                 ))}
             </nav>
        ); 
+    }
+
+    function createExtras(cat){
+        
+        if(!props.isAuth)
+        {
+            return;
+        }
+        
+        const elementId = 'edit' + cat.id;
+        const link = '/categories/edit/' + cat.id;
+
+        return (
+            <div className={classes.Extras}>
+                (<NavLink key={elementId} to={link} exact>edit</NavLink>)                
+            </div>
+            
+        );
     }
 }
 

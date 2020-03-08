@@ -37,7 +37,8 @@ function App(props) {
         <Switch>                       
           <Route path="/auth" render={(props) => <Auth {...props} />} /> 
           <Route path="/logout" component={Logout} /> 
-          <Route path="/addCategory" render={(props) => <CategoriesManager {...props}  /> } />
+          <Route path="/categories/add" render={(props) => <CategoriesManager {...props}  /> } />
+          <Route path="/categories/edit/:id" render={(props) => <CategoriesManager {...props}  /> } />
           <Redirect to="/" />   
         </Switch>
       );

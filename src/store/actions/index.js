@@ -16,5 +16,6 @@
  } from './sideCategories';
 
  export {
-     addCategory
+     addCategory,
+     editCategory
  } from './categoriesManager';

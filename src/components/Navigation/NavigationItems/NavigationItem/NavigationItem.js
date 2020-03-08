@@ -13,8 +13,9 @@ const navigationItem = (props) => {
 
     return(
         <li className={style}>
-        <NavLink to={props.link} exact={props.exact} className={props.active}>{props.children}</NavLink>
-    </li>        
+            <NavLink to={props.link} exact={props.exact} className={props.active}>{props.children}</NavLink> 
+            {props.extras}
+        </li>        
     );
 };
 

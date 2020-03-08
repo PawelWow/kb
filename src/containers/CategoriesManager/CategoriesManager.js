@@ -1,18 +1,23 @@
-import React, { useState  } from 'react';
+import React, { useState, useEffect  } from 'react';
 import { useDispatch, useSelector  } from 'react-redux';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import { updateObject, checkIsValid } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 
+import classes from './CategoriesManager.css';
+
 const CategoryManager = (props) => {
     const dispatch = useDispatch();
 
-    const token = useSelector(state => state.auth.token);
-
-    const [categoryLink, setCategoryLink] = useState(false);
+    const token = useSelector(state => state.auth.token);        
+    const categories = useSelector(state => state.sideCategories.categories);
+    
+    const [categoryLink, setCategoryLink] = useState('');
+    const [isFormValid, setIsFormValid] = useState(false);
 
     const onAddCategory = category => dispatch(actions.addCategory(category, token));
+    const onEditCategory = (id, category) => dispatch(actions.editCategory(id, category, token));
 
     const [categoryForm, setCategoryForm] = useState({
         name: {
@@ -32,6 +37,26 @@ const CategoryManager = (props) => {
         }                    
     });
 
+    // Tylko jeśli zmienią się propsy kategorii
+    useEffect(() => {
+
+        if(!props.match.params.id){
+            // To nie jest edycja kategorii więc czyścimy formularz tylko
+            setInitialForm({name: '', link: ''});
+            return;
+        }
+
+        const result = categories.filter( c => c.id === props.match.params.id);
+        if(!result){
+            console.log('no such category');  
+            setInitialForm({name: '', link: ''});          
+            return;
+        }
+        
+        setInitialForm(result[0]);
+
+    }, [props.category, categories, props.match.params.id]);
+
     const onInputChanged = (event, controlName) => {
         const updatedControls = updateObject(categoryForm, {            
             [controlName]: updateObject(categoryForm[controlName], {                
@@ -45,34 +70,43 @@ const CategoryManager = (props) => {
 
         // usuń spacje i inne
         const pattern = /[^a-zA-Z0-9]+/g;        
-        const validLink = event.target.value.trim().toLowerCase().replace(pattern, '_');
+        const validLink = '/'+event.target.value.trim().toLowerCase().replace(pattern, '_');
         setCategoryLink(validLink);
+
+        setIsFormValid(checkFormIsValid(updatedControls))
 
     }    
 
     const onSubmit = (event) => {
         event.preventDefault();
-        onAddCategory(getCategoryData());       
+
+        if(props.match.params.id){
+            onEditCategory(props.match.params.id, getCategoryData());
+        } else {
+            onAddCategory(getCategoryData());       
+        }
     }
 
 
     const formElementsArray = getCategoryormElements();
     return (
-        <form onSubmit={onSubmit}>
-            {formElementsArray.map( formElement => (                
-                <Input
-                    key={formElement.id}
-                    elementType={formElement.config.elementType}
-                    elementConfig={formElement.config.elementConfig}
-                    value={formElement.config.value}
-                    invalid={!formElement.config.isValid}
-                    shouldValidate={formElement.config.validation}
-                    isTouched={formElement.config.isTouched}
-                    changed={( event ) => onInputChanged( event, formElement.id )}
-                    />))}
-                    <p>Link: {categoryLink}</p>
-            <Button btnType="Success">SUBMIT</Button>                
-        </form>
+        <div className={classes.CategoriesManager}>
+            <form onSubmit={onSubmit}>
+                {formElementsArray.map( formElement => (                
+                    <Input
+                        key={formElement.id}
+                        elementType={formElement.config.elementType}
+                        elementConfig={formElement.config.elementConfig}
+                        value={formElement.config.value}
+                        invalid={!formElement.config.isValid}
+                        shouldValidate={formElement.config.validation}
+                        isTouched={formElement.config.isTouched}
+                        changed={( event ) => onInputChanged( event, formElement.id )}
+                        />))}
+                        <p >Link: {categoryLink}</p>
+                <Button btnType="Success" disabled={!isFormValid}>SUBMIT</Button>                
+            </form>            
+        </div>
     );
 
     function getCategoryData(){
@@ -95,6 +129,34 @@ const CategoryManager = (props) => {
             });
         }
         return formElementsArray;
+    }
+
+    // Jeśli jaki element formularza nie jest walidny to zwraca false - 
+    function checkFormIsValid(form)
+    {        
+        for(let inputIdentifier in form){
+            
+            if(form[inputIdentifier].isValid === false)
+            {
+
+                return false;
+            }
+        }
+
+        return true;
+    }    
+
+    function setInitialForm(category)
+    {
+        const formData = updateObject(categoryForm, {            
+            name: updateObject(categoryForm["name"], {                
+                value: category.name,
+                isValid: true,
+                isTouched: false
+            })});
+
+        setCategoryForm(formData);
+        setCategoryLink(category.link);
     }
 }
 
