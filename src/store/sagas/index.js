@@ -9,14 +9,10 @@ import {
 } from "./auth";
 
 import {
-    initCategoriesSaga    
-} from "./sideCategories";
-
-import {
+    initCategoriesSaga,
     addCategorySaga,
     editCategorySaga
-} from "./categoriesManager";
-import { editCategory } from "../actions";
+} from "./categories";
 
 export function* watchAuth() {
     yield all([
@@ -28,13 +24,10 @@ export function* watchAuth() {
 }
 
 export function* watchCategories() {
-    yield takeEvery(actionTypes.CATEGORIES_INIT, initCategoriesSaga);
-}
-
-export function* watchCategoriesManager() {
     yield all ([
+        takeEvery(actionTypes.CATEGORIES_INIT, initCategoriesSaga),
         takeEvery(actionTypes.CATEGORIES_ADD, addCategorySaga),
         takeEvery(actionTypes.CATEGORIES_EDIT, editCategorySaga)
     ]);
-}
 
+}

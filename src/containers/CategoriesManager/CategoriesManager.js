@@ -11,8 +11,8 @@ const CategoryManager = (props) => {
     const dispatch = useDispatch();
 
     const token = useSelector(state => state.auth.token);        
-    const categories = useSelector(state => state.sideCategories.categories);
-    const changesCount = useSelector(state => state.sideCategories.changesCount);
+    const categories = useSelector(state => state.categories.collection);
+    const changesCount = useSelector(state => state.categories.changesCount);
     
     const [categoryLink, setCategoryLink] = useState('');
     const [isFormValid, setIsFormValid] = useState(false);
@@ -20,8 +20,7 @@ const CategoryManager = (props) => {
 
     const onAddCategory = category => dispatch(actions.addCategory(category, token));
     const onEditCategory = (id, category) => dispatch(actions.editCategory(id, category, token));
-    const onInitCategories = useCallback(() => dispatch(actions.initCategories()), [dispatch]);
-    const onChange = () => dispatch(actions.setChangesCount());
+    const onSetCategories = categories => dispatch(actions.setCategories(categories));
     
     const [categoryForm, setCategoryForm] = useState({
         name: {
@@ -84,14 +83,27 @@ const CategoryManager = (props) => {
     const onSubmit = (event) => {
         event.preventDefault();
 
+        const category = getCategoryData();
         if(props.match.params.id){
-            onEditCategory(props.match.params.id, getCategoryData());
+            const categoryId = props.match.params.id; 
+            onEditCategory(categoryId, category);
+
+            const updatedCategories = categories.filter( cat => cat.id !== categoryId);
+            updatedCategories.push({...category, id: categoryId});
+            onSetCategories(updatedCategories);
         } else {
-            onAddCategory(getCategoryData());       
+            onAddCategory(category);  
+
+            // const updatedCategories = {...categories};
+            // updatedCategories.push(category);
+            // onSetCategories(updatedCategories);
         }
 
+
+
         setIsDone(true);
-        onChange();
+        //onChange();
+        
         console.log("after submit changes count: " + changesCount);
         
         props.history.replace('/');

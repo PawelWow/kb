@@ -13,8 +13,8 @@ import classes from './SideCategories.css';
 const SideCategories = (props) => {
     const dispatch = useDispatch();
 
-    const categories = useSelector(state => state.sideCategories.categories);
-    const changesCount = useSelector(state => state.sideCategories.changesCount);
+    const categories = useSelector(state => state.categories.collection);
+    const changesCount = useSelector(state => state.categories.changesCount);
 
     const onInitCategories = useCallback(() => dispatch(actions.initCategories()), [dispatch]);
 
@@ -43,6 +43,9 @@ const SideCategories = (props) => {
         {
             return <Spinner />;
         }
+
+        console.log("cats:");
+        console.log(categories);
 
        return (
             <nav>

@@ -13,10 +13,8 @@
  export {
      initCategories,
      setCategories,
-     setChangesCount
- } from './sideCategories';
-
- export {
+     setChangesCount,
      addCategory,
+     addCategorySuccess,
      editCategory
- } from './categoriesManager';
+ } from './categories';
