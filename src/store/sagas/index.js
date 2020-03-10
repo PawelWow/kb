@@ -15,6 +15,10 @@ import {
     editCategorySaga
 } from "./categories";
 
+import {
+    addArticleSaga
+} from "./articles";
+
 export function* watchAuth() {
     yield all([
         takeEvery(actionTypes.AUTH_CHECK_TIMEOUT, checkAuthTimeoutSaga),
@@ -31,5 +35,10 @@ export function* watchCategories() {
         takeEvery(actionTypes.CATEGORIES_DELETE, deleteCategorySaga),
         takeEvery(actionTypes.CATEGORIES_EDIT, editCategorySaga)
     ]);
+}
 
+export function* watchArticles(){
+    yield all ([
+        takeEvery(actionTypes.ARTICLES_ADD, addArticleSaga) 
+    ]);
 }

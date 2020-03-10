@@ -20,3 +20,8 @@
      editCategory,
      editCategorySuccess
  } from './categories';
+
+ export {
+    addArticle,
+    addArticleSuccess
+ } from './articles';

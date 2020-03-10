@@ -10,13 +10,15 @@ import { BrowserRouter } from 'react-router-dom';
 
 import authReducer from './store/reducers/auth';
 import categoriesReducer from './store/reducers/categories';
-import { watchAuth, watchCategories } from './store/sagas';
+import articlesReducer from './store/reducers/articles';
+import { watchAuth, watchCategories, watchArticles } from './store/sagas';
 
 import createSagaMiddleware from 'redux-saga';
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    categories: categoriesReducer
+    categories: categoriesReducer,
+    articles: articlesReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();
@@ -26,6 +28,7 @@ const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 
 sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(watchCategories);
+sagaMiddleware.run(watchArticles);
 
 const app = (
     <Provider store={store}>

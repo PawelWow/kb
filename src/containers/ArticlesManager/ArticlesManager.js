@@ -1,17 +1,25 @@
 import React, {useState} from 'react';
 import { useDispatch, useSelector  } from 'react-redux';
 
-import * as inputDefs from '../../components/UI/Input/inputDefs';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
+
+import * as inputDefs from '../../components/UI/Input/inputDefs';
+import * as actions from '../../store/actions/index';
 
 import { updateObject, checkIsValid, checkFormIsValid } from '../../shared/utility';
 
 import classes from './ArticlesManager.css';
 
 const ArticlesManager = (props) => {
+    const dispatch = useDispatch();
+
+    const token = useSelector(state => state.auth.token);    
     const categories = useSelector(state => state.categories.collection);
 
+    const onAddArticle = article => dispatch(actions.addArticle(article, token));
+
+    const [isDone, setIsDone] = useState(false);
     const [isFormValid, setIsFormValid] = useState(false);
 
     const [articleForm, setArticleForm] = useState({
@@ -75,18 +83,18 @@ const ArticlesManager = (props) => {
 
     const onSubmit = (event) => {
         event.preventDefault();
-
+       
         if(props.match.params.id){
             // eidt
-        } else {
-            // add
+        } else {            
+            onAddArticle(getArticleData(articleForm, false));
         }
 
-       
+       setIsDone(true);
     }
 
 
-    return <div>{showForm()}</div>;
+    return <div className={classes.ArticlesManager}>{isDone ? <p>Done!</p> : showForm()}</div>;
 
     function getCategoriesSelector(){
         const categoriesToSelect = [{value: inputDefs.INPUT_TYPE_SELECT_VALUE_DEFAULT, displayValue: 'Wybierz...'}];
@@ -112,26 +120,55 @@ const ArticlesManager = (props) => {
         const formElementsArray = getFormElements(articleForm);
 
         return (
-            <div className={classes.ArticlesManager}>
-                <form onSubmit={onSubmit}>
-                    {formElementsArray.map( formElement => (                
-                    <Input
-                        key={formElement.id}
-                        elementType={formElement.config.elementType}
-                        elementConfig={formElement.config.elementConfig}
-                        value={formElement.config.value}
-                        invalid={!formElement.config.isValid}
-                        shouldValidate={formElement.config.validation}
-                        isTouched={formElement.config.isTouched}
-                        changed={( event ) => onInputChanged( event, formElement.id )}
-                    />))}
-                
-                    <Button btnType="Success" disabled={!isFormValid}>SUBMIT</Button>
-                    </form>  
-            </div>
-                
-
+            <form onSubmit={onSubmit}>
+            {formElementsArray.map( formElement => (                
+            <Input
+                key={formElement.id}
+                elementType={formElement.config.elementType}
+                elementConfig={formElement.config.elementConfig}
+                value={formElement.config.value}
+                invalid={!formElement.config.isValid}
+                shouldValidate={formElement.config.validation}
+                isTouched={formElement.config.isTouched}
+                changed={( event ) => onInputChanged( event, formElement.id )}
+            />))}
+        
+            <Button btnType="Success" disabled={!isFormValid}>SUBMIT</Button>
+            </form>                 
         );
+    }
+
+    function getArticleData(form, isEdit){
+        const data = {};
+        for(let formElementIdentifier in form) {
+            data[formElementIdentifier] = form[formElementIdentifier].value;
+        }
+
+        const dateNow = new Date();
+        if(isEdit){
+            data["edited"] = dateNow;
+            data["editor"] = "pawel@";
+        }
+        else {            
+            data["created"] = dateNow;
+            data["edited"] = dateNow;
+            data["editor"] = "pawel@";
+            data["author"] = "pawel@";          
+        }        
+        console.log(form);
+        data["description"] = createArticleDescription(form["content"].value);
+
+        return data;
+    }
+
+    // zwraca opis jako określona ilość znaków z contentu
+    function createArticleDescription(content){
+        const descriptionLength = 100;
+        if(content.length > descriptionLength){
+            return content.substring(0, descriptionLength) + '...';
+        }else {
+            return content;
+        }
     }
 }
 
