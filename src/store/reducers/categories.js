@@ -33,9 +33,10 @@ const deleteCategorySuccess = (state, action) => {
     });
 }
 
+// dorobić jeszcze sortowanie
 const setCategories = (state, action ) => {
     return updateObject( state, {
-        collection: action.categories.sort()
+        collection: action.categories
     });
 };
 
