@@ -2,18 +2,18 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
-    collection: []
+    details: []
 }
 
 const setArticles = (state, action ) => {
     return updateObject( state, {
-        collection: action.articles
+        details: action.details
     });
 };
 
 const addArticleSuccess = (state, action) => {
     return updateObject( state, {
-        collection: [...state.collection, action.article]
+        details: [...state.details, action.details]
     });
 }
 

@@ -7,19 +7,21 @@ const Articles = props => {
     const dispatch = useDispatch();
     const onInitArticles = useCallback(() => dispatch(actions.initArticles()), [dispatch]);
 
-    const articles = useSelector(state => state.articles.collection);
+    const articles = useSelector(state => state.articles.details);
 
 
     useEffect(() => {
         onInitArticles();
     }, [onInitArticles])
 
-    console.log("arts:");
-    console.log(articles);
 
-    return <div><p>Articles</p> <p>{getArticles()}</p></div>;
+
+    return <div><p>Articles</p> {getArticles()}</div>;
 
     function getArticles(){
+        console.log("arts:");
+        console.log(articles);
+
         return(
             <ul>
                 {articles.map(article => (

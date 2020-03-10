@@ -6,24 +6,25 @@ export const initArticles = () => {
     }
 }
 
-export const setArticles = (articles) => {
+export const setArticles = (details) => {
     return {
         type: actionTypes.ARTICLES_SET,
-        articles: articles
+        details: details
     }
 }
 
-export const addArticle = (article, token) => {
+export const addArticle = (details, content, token) => {
     return {
         type: actionTypes.ARTICLES_ADD,
-        article: article,
+        details: details,
+        content: content,
         token: token
     };
 };
 
-export const addArticleSuccess = (article) => {
+export const addArticleSuccess = (details) => {
     return {
         type: actionTypes.ARTICLES_ADD_SUCCESS,
-        article: article
+        details: details
     }
 }

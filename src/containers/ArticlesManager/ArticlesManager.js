@@ -16,9 +16,8 @@ const ArticlesManager = (props) => {
 
     const token = useSelector(state => state.auth.token);    
     const categories = useSelector(state => state.categories.collection);
-    const articles = useSelector(state => state.articles.collection);
 
-    const onAddArticle = article => dispatch(actions.addArticle(article, token));
+    const onAddArticle = (details, content) => dispatch(actions.addArticle(details, content, token));
 
     const [isDone, setIsDone] = useState(false);
     const [isFormValid, setIsFormValid] = useState(false);
@@ -88,7 +87,8 @@ const ArticlesManager = (props) => {
         if(props.match.params.id){
             // eidt
         } else {            
-            onAddArticle(getArticleData(articleForm, false));
+            const data = getArticleData(articleForm, false);
+            onAddArticle(data.details, data.content);
         }
 
        setIsDone(true);
@@ -140,8 +140,13 @@ const ArticlesManager = (props) => {
     }
 
     function getArticleData(form, isEdit){
-        const data = {};
+        const data = [];
         for(let formElementIdentifier in form) {
+            if(formElementIdentifier === 'content'){
+                // treść osobno
+                continue;
+            }
+
             data[formElementIdentifier] = form[formElementIdentifier].value;
         }
 
@@ -155,11 +160,12 @@ const ArticlesManager = (props) => {
             data["edited"] = dateNow;
             data["editor"] = "pawel@";
             data["author"] = "pawel@";          
-        }        
-        console.log(form);
-        data["description"] = createArticleDescription(form["content"].value);
+        }       
+        
+        const content = form["content"].value;
+        data["description"] = createArticleDescription(content);
 
-        return data;
+        return {details: data, content: content};
     }
 
     // zwraca opis jako określona ilość znaków z contentu

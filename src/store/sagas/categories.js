@@ -12,6 +12,7 @@ export function* initCategoriesSaga(action){
         {
             fetchCategories.push( {...response.data[key], id: key});
         }
+
         yield put(actions.setCategories(fetchCategories));
 
     } catch( error ) {
