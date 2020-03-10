@@ -12,7 +12,6 @@ const CategoryManager = (props) => {
 
     const token = useSelector(state => state.auth.token);        
     const categories = useSelector(state => state.categories.collection);
-    const changesCount = useSelector(state => state.categories.changesCount);
     
     const [categoryLink, setCategoryLink] = useState('');
     const [isFormValid, setIsFormValid] = useState(false);
@@ -55,7 +54,8 @@ const CategoryManager = (props) => {
             setInitialForm({name: '', link: ''});          
             return;
         }
-        
+        console.log("aaa");
+        console.log(result);
         setInitialForm(result[0]);
 
     }, [props.match.params.id]);
@@ -99,13 +99,7 @@ const CategoryManager = (props) => {
             // onSetCategories(updatedCategories);
         }
 
-
-
-        setIsDone(true);
-        //onChange();
-        
-        console.log("after submit changes count: " + changesCount);
-        
+        setIsDone(true);      
         props.history.replace('/');
         
     }

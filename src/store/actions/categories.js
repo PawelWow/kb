@@ -52,8 +52,11 @@ export const editCategory = (id, category, token) => {
     };
 };
 
-export const setChangesCount = () => {
+export const editCategorySuccess = (id, category) => {
     return {
-        type: actionTypes.CATEGORIES_CHANGES_COUNT        
-    }
-}
+        type: actionTypes.CATEGORIES_EDIT_SUCCESS,
+        id: id,
+        category: category
+    };
+};
+

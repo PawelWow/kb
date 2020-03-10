@@ -16,7 +16,6 @@ export function* initCategoriesSaga(action){
 
     } catch( error ) {
         // TODO error handling
-        console.log(error);
         handleError(error);
     }
 }
@@ -36,6 +35,8 @@ export function* addCategorySaga(action) {
 export function* editCategorySaga(action) {
     try {
         yield axios.patch(getCategoryAuthUrl(action.id, action.token), action.category);
+
+        yield put(actions.editCategorySuccess(action.id, action.category))
     } catch (error) {
         handleError(error);
     }

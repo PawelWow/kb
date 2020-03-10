@@ -13,10 +13,10 @@
  export {
      initCategories,
      setCategories,
-     setChangesCount,
      addCategory,
      addCategorySuccess,
      deleteCategory,
      deleteCategorySuccess,     
-     editCategory
+     editCategory,
+     editCategorySuccess
  } from './categories';

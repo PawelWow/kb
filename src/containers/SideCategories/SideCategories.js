@@ -15,18 +15,15 @@ const SideCategories = (props) => {
 
     const token = useSelector(state => state.auth.token);    
     const categories = useSelector(state => state.categories.collection);
-    const changesCount = useSelector(state => state.categories.changesCount);
 
     const onDeleteCategory = (id) => dispatch(actions.deleteCategory(id, token));
 
     const onInitCategories = useCallback(() => dispatch(actions.initCategories()), [dispatch]);
 
-    // changes count przeładowuje kategorie 2 x. Można to przemyśleć w takim razie robiąc jakiś timer - inkrementujemy, a 
-    // timer wyzeruje (wtedy powtórzymy ładowanie tylko po jakimś czasie)
-    // albo za bardzo działam na bakendzie - może edyccja powinna być w 2 miejscach - tutaj i w bazie, a reload zrobimy tylko tutaj
+    // co jakiś czas powinniśmy ten init odpalać jednak, jakiś timer czy coś?
     useEffect(() => {
         onInitCategories();
-    }, [onInitCategories, changesCount]);
+    }, [onInitCategories]);
 
     return(        
         <SideDrawer 
