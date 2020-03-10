@@ -24,8 +24,9 @@ export function* addCategorySaga(action) {
 
     try {
         const response = yield axios.post(getCategoriesAuthUrl(action.token), action.category);
-        const addedCategory = {...action.category, id: response.data};
 
+        // w firebase dostaniemy id w formie name: "ID". Name tutaj oznacza child element name, a nie naszego propsa
+        const addedCategory = {...action.category, id: response.data.name};
         yield put(actions.addCategorySuccess(addedCategory));        
     } catch( error ) {
         handleError(error);
@@ -44,8 +45,6 @@ export function* editCategorySaga(action) {
 
 export function* deleteCategorySaga(action) {
     try {
-        console.log("on delete");
-        console.log(getCategoryAuthUrl(action.id, action.token));
         yield axios.delete(getCategoryAuthUrl(action.id, action.token));
         yield put(actions.deleteCategorySuccess(action.id));
     } catch(error) {

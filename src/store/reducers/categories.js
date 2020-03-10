@@ -12,8 +12,6 @@ const addCategorySuccess = (state, action) => {
 }
 
 const editCategorySuccess = (state, action ) => {
-    console.log("id");
-    console.log(action.id);
     let updatedCategories = [];
     state.collection.map( category => {
         if(category.id === action.id){

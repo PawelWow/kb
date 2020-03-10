@@ -44,9 +44,6 @@ const SideCategories = (props) => {
             return <Spinner />;
         }
 
-        console.log("cats:");
-        console.log(categories);
-
        return (
             <nav>
                 {categories.map(cat => (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback  } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector  } from 'react-redux';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
@@ -49,13 +49,12 @@ const CategoryManager = (props) => {
         }
 
         const result = categories.filter( c => c.id === props.match.params.id);
-        if(!result){
-            console.log('no such category');  
+
+        if(!result || result.length <= 0){            
             setInitialForm({name: '', link: ''});          
             return;
         }
-        console.log("aaa");
-        console.log(result);
+
         setInitialForm(result[0]);
 
     }, [props.match.params.id]);
@@ -93,10 +92,6 @@ const CategoryManager = (props) => {
             onSetCategories(updatedCategories);
         } else {
             onAddCategory(category);  
-
-            // const updatedCategories = {...categories};
-            // updatedCategories.push(category);
-            // onSetCategories(updatedCategories);
         }
 
         setIsDone(true);      
