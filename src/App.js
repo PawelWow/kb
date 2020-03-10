@@ -14,6 +14,11 @@ const CategoriesManager = React.lazy(() => {
   return import('./containers/CategoriesManager/CategoriesManager');
 });
 
+// pytanie czy zawsze jest sens ładować jako lazy - jeszcze przemyśleć, ale raczej tak
+const ArticlesManager = React.lazy(() => {
+  return import('./containers/ArticlesManager/ArticlesManager');
+});
+
 function App(props) {
   
   const { onTryAutoSignup } = props;
@@ -39,6 +44,7 @@ function App(props) {
           <Route path="/logout" component={Logout} /> 
           <Route path="/categories/add" render={(props) => <CategoriesManager {...props}  /> } />
           <Route path="/categories/edit/:id" render={(props) => <CategoriesManager {...props}  /> } />
+          <Route path="/articles/add" render={(props) => <ArticlesManager {...props}  /> } />
           <Redirect to="/" />   
         </Switch>
       );

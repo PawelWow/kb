@@ -40,6 +40,27 @@ export const checkIsValid = (value, rules) => {
         isValid = pattern.test(value) && isValid;
     }
 
+    if(rules.prohibitValue){
+        isValid = value !== rules.prohibitValue && isValid;
+    }
+
     return isValid;
 }
+
+    // Jeśli jaki element formularza nie jest walidny to zwraca false - 
+export const checkFormIsValid = (form) => {        
+    for(let inputIdentifier in form){
+        
+        if(form[inputIdentifier].isValid === false)
+        {
+
+            return false;
+        }
+    }
+
+    return true;
+}  
+
+
+
 

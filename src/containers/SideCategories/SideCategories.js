@@ -2,6 +2,7 @@ import React, {useEffect, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Aux from '../../hoc/Auxiliary/Auxiliary';
 import SideDrawer from '../../components/Navigation/SideDrwer/SideDrawer';
 import NavigationItem from '../../components/Navigation/NavigationItems/NavigationItem/NavigationItem';
 import Spinner from '../../components/UI/Spinner/Spinner';
@@ -32,10 +33,22 @@ const SideCategories = (props) => {
             closed={props.closed}>
             <h1>Kategorie</h1>
             {getCategories()}
-            {props.isAuth && <p>Admin:<br /><NavigationItem link="/categories/add" isVertical>Dodaj</NavigationItem></p>}
+            {props.isAuth && getAuthSection()}
 
         </SideDrawer>
     );
+
+    function getAuthSection(){
+        return(
+            <Aux>
+                <p>Administracja:</p>
+                <nav>
+                    <NavigationItem link="/categories/add" isVertical>Nowa kategoria</NavigationItem>
+                    <NavigationItem link="/articles/add" isVertical>Nowy artykuł</NavigationItem>
+                </nav>
+            </Aux>
+        );
+    }
 
     function getCategories()
     {
@@ -46,8 +59,7 @@ const SideCategories = (props) => {
 
        return (
             <nav>
-                {categories.map(cat => (
-                                       
+                {categories.map(cat => (                                       
                     <NavigationItem key={cat.id} link={cat.link} extras={createExtras(cat)} isVertical>{cat.name}</NavigationItem>
                 ))}
             </nav>
