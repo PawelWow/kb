@@ -13,8 +13,11 @@ import classes from './SideCategories.css';
 const SideCategories = (props) => {
     const dispatch = useDispatch();
 
+    const token = useSelector(state => state.auth.token);    
     const categories = useSelector(state => state.categories.collection);
     const changesCount = useSelector(state => state.categories.changesCount);
+
+    const onDeleteCategory = (id) => dispatch(actions.deleteCategory(id, token));
 
     const onInitCategories = useCallback(() => dispatch(actions.initCategories()), [dispatch]);
 
@@ -69,7 +72,7 @@ const SideCategories = (props) => {
 
         return (
             <div className={classes.Extras}>
-                (<NavLink key={elementId} to={link} exact>edit</NavLink>)                
+                (<NavLink key={elementId} to={link} exact>edit</NavLink>, <button onClick={() => onDeleteCategory(cat.id)}>Delete</button>)               
             </div>
             
         );

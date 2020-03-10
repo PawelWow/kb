@@ -14,3 +14,26 @@
     font-size: smaller;
     font-style: italic;
 }
+
+
+.Extras button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    outline: none;
+    color: #fa923f;
+}
+
+.Extras button:hover,
+.Extras button:active {
+    color: #521751;
+}
+
+.Extras button.Delete {
+    color: red;
+}
+
+.Extras button.Delete:hover,
+.Extras button.Delete:active {
+    color: darkred;
+}

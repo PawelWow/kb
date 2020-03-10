@@ -28,6 +28,21 @@ export const addCategorySuccess = (category) => {
     }
 }
 
+export const deleteCategory = (id, token) => {
+    return {
+        type: actionTypes.CATEGORIES_DELETE,
+        id: id,
+        token: token
+    };
+};
+
+export const deleteCategorySuccess = (id) => {
+    return {
+        type: actionTypes.CATEGORIES_DELETE_SUCCESS,
+        id: id
+    }
+}
+
 export const editCategory = (id, category, token) => {
     return {
         type: actionTypes.CATEGORIES_EDIT,

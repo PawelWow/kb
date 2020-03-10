@@ -11,6 +11,7 @@ import {
 import {
     initCategoriesSaga,
     addCategorySaga,
+    deleteCategorySaga,
     editCategorySaga
 } from "./categories";
 
@@ -27,6 +28,7 @@ export function* watchCategories() {
     yield all ([
         takeEvery(actionTypes.CATEGORIES_INIT, initCategoriesSaga),
         takeEvery(actionTypes.CATEGORIES_ADD, addCategorySaga),
+        takeEvery(actionTypes.CATEGORIES_DELETE, deleteCategorySaga),
         takeEvery(actionTypes.CATEGORIES_EDIT, editCategorySaga)
     ]);
 

@@ -12,6 +12,12 @@ const addCategorySuccess = (state, action) => {
     });
 }
 
+const deleteCategorySuccess = (state, action) => {
+    return updateObject( state, {
+        collection: state.collection.filter(category => category.id !== action.id)
+    });
+}
+
 const setCategories = (state, action ) => {
     return updateObject( state, {
         collection: action.categories,
@@ -28,6 +34,7 @@ const setChangesCount = (state, action) => {
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.CATEGORIES_ADD_SUCCESS: return addCategorySuccess(state, action);
+        case actionTypes.CATEGORIES_DELETE_SUCCESS: return deleteCategorySuccess(state, action);
         case actionTypes.CATEGORIES_SET: return setCategories(state, action);
         case actionTypes.CATEGORIES_CHANGES_COUNT: return setChangesCount(state, action);
         default: return state;

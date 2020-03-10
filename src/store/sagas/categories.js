@@ -41,6 +41,17 @@ export function* editCategorySaga(action) {
     }
 }
 
+export function* deleteCategorySaga(action) {
+    try {
+        console.log("on delete");
+        console.log(getCategoryAuthUrl(action.id, action.token));
+        yield axios.delete(getCategoryAuthUrl(action.id, action.token));
+        yield put(actions.deleteCategorySuccess(action.id));
+    } catch(error) {
+        handleError(error);
+    }
+}
+
 const getCategoriesAuthUrl = token => {
     return `/categories.json?auth=${token}` ;
 }

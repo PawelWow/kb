@@ -16,5 +16,7 @@
      setChangesCount,
      addCategory,
      addCategorySuccess,
+     deleteCategory,
+     deleteCategorySuccess,     
      editCategory
  } from './categories';
