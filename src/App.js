@@ -6,6 +6,8 @@ import Layout from './hoc/Layout/Layout';
 import Logout from './containers/Auth/Logout/Logout';
 import * as actions from './store/actions/index';
 
+import Articles from './containers/Articles/Articles';
+
 const Auth = React.lazy(() => {
   return import('./containers/Auth/Auth');
 });
@@ -14,7 +16,7 @@ const CategoriesManager = React.lazy(() => {
   return import('./containers/CategoriesManager/CategoriesManager');
 });
 
-// pytanie czy zawsze jest sens ładować jako lazy - jeszcze przemyśleć, ale raczej tak
+// pytanie czy zawsze jest sens ładować jako lazy takie rzeczy - jeszcze przemyśleć, ale raczej tak
 const ArticlesManager = React.lazy(() => {
   return import('./containers/ArticlesManager/ArticlesManager');
 });
@@ -53,7 +55,7 @@ function App(props) {
     return(
       <Switch>   
         <Route path="/auth" render={(props) => <Auth {...props} />} /> 
-        <Route path="/" exact render={() => <h1>Home</h1>} />
+        <Route path="/" exact component={Articles} />
         <Redirect to="/" />       
       </Switch>
     );

@@ -16,6 +16,7 @@ const ArticlesManager = (props) => {
 
     const token = useSelector(state => state.auth.token);    
     const categories = useSelector(state => state.categories.collection);
+    const articles = useSelector(state => state.articles.collection);
 
     const onAddArticle = article => dispatch(actions.addArticle(article, token));
 

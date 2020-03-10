@@ -3,10 +3,25 @@ import axios from '../../axios-db';
 
 import * as actions from "../actions/index";
 
-export function* addArticleSaga(action) {
-
+export function* initArticlesSaga(action){
     try {
+        const response = yield axios.get('/articles.json?fields=title,description,category');
+        
+        const fetchArticles = [];
+        for(let key in response.data)
+        {
+            fetchArticles.push( {...response.data[key], id: key});
+        }
+        yield put(actions.setArticles(fetchArticles));
 
+    } catch( error ) {
+        // TODO error handling
+        handleError(error);
+    }
+}
+
+export function* addArticleSaga(action) {
+    try {
         console.log("saga");
         const response = yield axios.post(getArticlesAuthUrl(action.token), action.article);
 

@@ -1,7 +1,19 @@
 import * as actionTypes from './actionTypes';
 
+export const initArticles = () => {
+    return {
+        type: actionTypes.ARTICLES_INIT
+    }
+}
+
+export const setArticles = (articles) => {
+    return {
+        type: actionTypes.ARTICLES_SET,
+        articles: articles
+    }
+}
+
 export const addArticle = (article, token) => {
-    console.log("action");
     return {
         type: actionTypes.ARTICLES_ADD,
         article: article,

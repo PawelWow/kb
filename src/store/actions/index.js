@@ -22,6 +22,8 @@
  } from './categories';
 
  export {
+    initArticles,
+    setArticles,
     addArticle,
     addArticleSuccess
  } from './articles';
