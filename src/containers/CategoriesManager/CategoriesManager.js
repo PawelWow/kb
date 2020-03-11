@@ -71,8 +71,9 @@ const CategoryManager = (props) => {
         setCategoryForm(updatedControls);
 
         // usuń spacje i inne
+        // TODO ale z polskich znaków może wywalać ogonki tylko
         const pattern = /[^a-zA-Z0-9]+/g;        
-        const validLink = '/'+event.target.value.trim().toLowerCase().replace(pattern, '_');
+        const validLink = event.target.value.trim().toLowerCase().replace(pattern, '_');
         setCategoryLink(validLink);
 
         setIsFormValid(checkFormIsValid(updatedControls))
@@ -121,7 +122,7 @@ const CategoryManager = (props) => {
                     isTouched={formElement.config.isTouched}
                     changed={( event ) => onInputChanged( event, formElement.id )}
             />))}
-            <p >Link: {categoryLink}</p>
+            <p >Link: /{categoryLink}</p>
             <Button btnType="Success" disabled={!isFormValid}>SUBMIT</Button>                
         </form>  
         );

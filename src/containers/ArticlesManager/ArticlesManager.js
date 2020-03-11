@@ -17,6 +17,8 @@ const ArticlesManager = (props) => {
     const token = useSelector(state => state.auth.token);    
     const categories = useSelector(state => state.categories.collection);
 
+    const [articleLink, setArticleLink] = useState('');
+
     const onAddArticle = (details, content) => dispatch(actions.addArticle(details, content, token));
 
     const [isDone, setIsDone] = useState(false);
@@ -78,6 +80,15 @@ const ArticlesManager = (props) => {
         });
 
         setArticleForm(updatedControls);
+
+        if(controlName === "title"){
+            // robimy unikalny link - nie chcemy artów po id wyświetlać
+            // TODO ale z polskich znaków może wywalać ogonki tylko
+            const pattern = /[^a-zA-Z0-9]+/g;        
+            const validLink = event.target.value.trim().toLowerCase().replace(pattern, '_');
+            setArticleLink(validLink);
+        }
+
         setIsFormValid(checkFormIsValid(updatedControls))
     }       
 
@@ -120,19 +131,20 @@ const ArticlesManager = (props) => {
     function showForm(){
         const formElementsArray = getFormElements(articleForm);
 
-        return (
+        return (            
             <form onSubmit={onSubmit}>
-            {formElementsArray.map( formElement => (                
-            <Input
-                key={formElement.id}
-                elementType={formElement.config.elementType}
-                elementConfig={formElement.config.elementConfig}
-                value={formElement.config.value}
-                invalid={!formElement.config.isValid}
-                shouldValidate={formElement.config.validation}
-                isTouched={formElement.config.isTouched}
-                changed={( event ) => onInputChanged( event, formElement.id )}
-            />))}
+                <p>Link: /{articleLink}</p>
+                {formElementsArray.map( formElement => (                
+                    <Input
+                        key={formElement.id}
+                        elementType={formElement.config.elementType}
+                        elementConfig={formElement.config.elementConfig}
+                        value={formElement.config.value}
+                        invalid={!formElement.config.isValid}
+                        shouldValidate={formElement.config.validation}
+                        isTouched={formElement.config.isTouched}
+                        changed={( event ) => onInputChanged( event, formElement.id )}
+                    />))}
         
             <Button btnType="Success" disabled={!isFormValid}>SUBMIT</Button>
             </form>                 
@@ -164,6 +176,7 @@ const ArticlesManager = (props) => {
         
         const content = form["content"].value;
         data["description"] = createArticleDescription(content);
+        data["link"] = articleLink;
 
         return {details: data, content: content};
     }

@@ -1,7 +1,12 @@
 import React, {useEffect, useCallback} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 
+import Article from '../../components/Article/Article';
+import Aux from '../../hoc/Auxiliary/Auxiliary';
+
 import * as actions from '../../store/actions/index';
+
+import classes from './Articles.css';
 
 const Articles = props => {
     const dispatch = useDispatch();
@@ -14,22 +19,17 @@ const Articles = props => {
         onInitArticles();
     }, [onInitArticles])
 
-
-
-    return <div><p>Articles</p> {getArticles()}</div>;
+    return <Aux>
+            <h1>KB articles</h1>
+            <div className={classes.Articles}>{getArticles()}</div>
+        </Aux>;
 
     function getArticles(){
-        console.log("arts:");
-        console.log(articles);
-
         return(
-            <ul>
-                {articles.map(article => (
-                    <li key={article.id}>{article.title}</li>
-                ))}
-            </ul>
-
-        );
+            articles.map(article => (
+                <Article key={article.id} {...article} />
+            ))
+        );        
     }
 }
 

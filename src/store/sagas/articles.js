@@ -13,7 +13,6 @@ import * as actions from "../actions/index";
 
 export function* initArticlesSaga(action){
     try {
-        console.log("init");
         const response = yield axios.get('/articles/details.json');
         
         const fetchArticles = [];
