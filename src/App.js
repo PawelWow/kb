@@ -47,6 +47,7 @@ function App(props) {
           <Route path="/categories/add" render={(props) => <CategoriesManager {...props}  /> } />
           <Route path="/categories/edit/:id" render={(props) => <CategoriesManager {...props}  /> } />
           <Route path="/articles/add" render={(props) => <ArticlesManager {...props}  /> } />
+          <Route path="/" exact component={Articles} />
           <Redirect to="/" />   
         </Switch>
       );
