@@ -17,6 +17,7 @@ import {
 
 import {
     initArticlesSaga,
+    getContentSaga,
     addArticleSaga
 } from "./articles";
 
@@ -41,6 +42,7 @@ export function* watchCategories() {
 export function* watchArticles(){
     yield all ([
         takeEvery(actionTypes.ARTICLES_INIT, initArticlesSaga),
+        takeEvery(actionTypes.ARTICLES_GET_CONTENT, getContentSaga),
         takeEvery(actionTypes.ARTICLES_ADD, addArticleSaga) 
     ]);
 }

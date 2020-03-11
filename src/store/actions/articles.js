@@ -13,6 +13,20 @@ export const setArticles = (details) => {
     }
 }
 
+export const getContent = (contentId) => {
+    return {
+        type: actionTypes.ARTICLES_GET_CONTENT,
+        contentId: contentId
+    }
+}
+
+export const setContent = (content) => {
+    return {
+        type: actionTypes.ARTICLES_SET_CONTENT,
+        content: content
+    }
+}
+
 export const addArticle = (details, content, token) => {
     return {
         type: actionTypes.ARTICLES_ADD,

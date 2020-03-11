@@ -24,6 +24,8 @@
  export {
     initArticles,
     setArticles,
+    getContent,
+    setContent,
     addArticle,
     addArticleSuccess
  } from './articles';

@@ -29,6 +29,16 @@ export function* initArticlesSaga(action){
     }
 }
 
+export function* getContentSaga(action){
+    try{
+        const response = yield axios.get(`/articles/content/${action.contentId}.json`);
+        yield put(actions.setContent(response.data.content));      
+
+    }catch( error ){
+        handleError(error);
+    }
+}
+
 export function* addArticleSaga(action) {
     try {
         const responseContent = yield axios.post(getArticlesContentsAuthUrl(action.token), {content: action.content});

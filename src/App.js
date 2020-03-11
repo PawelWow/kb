@@ -7,6 +7,7 @@ import Logout from './containers/Auth/Logout/Logout';
 import * as actions from './store/actions/index';
 
 import Articles from './containers/Articles/Articles';
+import FullArticle from './containers/Articles/FullArticle/FullArticle';
 
 const Auth = React.lazy(() => {
   return import('./containers/Auth/Auth');
@@ -48,8 +49,9 @@ function App(props) {
           <Route path="/categories/edit/:id" render={(props) => <CategoriesManager {...props}  /> } />
           <Route path="/articles/add" render={(props) => <ArticlesManager {...props}  /> } />
           <Route path="/" exact component={Articles} />
-          <Redirect to="/" />   
-        </Switch>
+          <Route path='/art/:link' exact component={FullArticle} />
+          <Redirect to="/" />
+          </Switch>
       );
     }
     
@@ -57,7 +59,8 @@ function App(props) {
       <Switch>   
         <Route path="/auth" render={(props) => <Auth {...props} />} /> 
         <Route path="/" exact component={Articles} />
-        <Redirect to="/" />       
+        <Route path='/art/:link' exact component={FullArticle} />
+        <Redirect to="/" />
       </Switch>
     );
   }  
